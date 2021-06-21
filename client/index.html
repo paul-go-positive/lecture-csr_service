@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #block{
+            position: fixed;
+            background-color: #4c4c4ca1;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        #update{
+            color:white;
+            position: absolute;
+            background-color: darkslateblue;
+            top:50%;
+            left:50%;
+            width:500px;
+            height:180px;
+            border-radius: 100px;
+            transform: translateX(-50%) translateY(-50%);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>New User</h2>
+    <input id="nick" type="text"/>
+    <input id="desc" type="text"/>
+    <button id="userAddBtn">ADD</button>
+    <hr/>
+    <h2>User List</h2>
+    <ul id="userListUl">
+        
+    </ul>
+    <div id="block">
+        
+        <div id="update">
+            <h2>Update User</h2>
+            <input id="update_nick" type="text"/>
+            <br/>
+            <input id="update_desc" type="text"/>
+            <br/>
+            <button id="userUpdateBtn">Update</button>
+            <button id="userUpdateCancelBtn">Cancel</button>
+        </div>
+    </div>
+    <script>
+        let inno = {
+            util:{
+                getUid:()=>{
+                    let idLength = 5; 
+                    let cnt = (inno.data.cnt++) +''; 
+                    if(cnt.length < idLength){
+                        while(cnt.length < idLength){
+                            cnt = "0" + cnt;
+                        }
+                    }
+                    return "uid_"+cnt;                    
+                }
+            },
+            data:{
+                cnt:0,
+                updateIdx:-1,
+                users:[{
+                    idx:'uid_00000',
+                    nick:"nick",
+                    age:13,
+                    date:new Date().toLocaleString()
+                }],
+            },
+            view:{
+                updateView:(flag)=>{
+                    if(flag){
+                        document.getElementById("block").style.display = "block";
+                    }else{
+                        document.getElementById("block").style.display = "none";
+                    }
+                    
+                }
+            },
+            feature:{
+                init:()=>{
+                    // 유저 추가
+                    // 유저 수정 함수설정 - 업데이트,캔슬
+                },                
+                userAdd:()=>{
+                    // 유저 추가
+                    // 데이터 입력
+                    
+                },
+                setUserList:()=>{
+                    let listEl = document.getElementById("userListUl");
+                    for(let i=0; i< inno.data.users.length;i++){
+                        let userLi = document.createElement("li");
+                        
+                        let { idx, nick, age, date } = inno.data.users[i];
+                        userLi.innerText = `Id : ${idx}\nNick : ${nick}\nAge : ${age}\nDate : ${date}\n`;
+
+
+                        let updateBtn = document.createElement("button");
+                        updateBtn.innerText = "update";
+                        updateBtn.addEventListener("click",()=>{
+                            console.log("update user",i);
+                            // 수정할 유저의 인덱스를 임시 저장 후 유저수정 뷰 출력.
+                        });
+                        userLi.appendChild(updateBtn);
+
+
+                        let removeBtn = document.createElement("button");
+                        removeBtn.innerText = "remove";
+                        removeBtn.addEventListener("click",()=>{                            
+                            console.log("remove user",i);
+                            // 유저 삭제 후, 유저 목록 갱신
+                        });
+                        userLi.appendChild(removeBtn);
+
+                        listEl.appendChild(userLi);
+                    }
+                },
+                userUpdate:()=>{
+                    // 입력된 유저 정보 반영
+                    // 유저 목록 갱신
+                    // 수정 뷰 해제
+                },
+                userUpdateCancel:()=>{
+                    // 유저 정보 수정 뷰 해제
+                    inno.view.updateView(false);
+                },
+                userRemove:()=>{
+                    // 삭제 여부 확인
+                    // 삭제
+                    // 유저 목록 갱신
+                },
+            },            
+        }
+    </script>
+</body>
+</html>
